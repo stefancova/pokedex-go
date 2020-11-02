@@ -5,7 +5,7 @@ pipeline{
     stages{
         stage("A : Checkout branch master"){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '8bb83f75-d1d4-4f1c-aabc-2b492dfea8c9', url: 'https://github.com/stefancova/pokedex-go.git']]])
+                checkout scm
 				echo 'Pulling...' + env.BRANCH_NAME
             }
             post{
