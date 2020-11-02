@@ -3,9 +3,10 @@ pipeline{
         label "any"
     }
     stages{
-        stage("A"){
+        stage("Checkout branch master"){
             steps{
-                echo "========executing A========"
+                echo 'Pulling...' + env.BRANCH_NAME
+                checkout scm
             }
             post{
                 always{
