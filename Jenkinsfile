@@ -3,10 +3,10 @@ pipeline{
         label "any"
     }
     stages{
-        stage("Checkout branch master"){
+        stage("A : Checkout branch master"){
             steps{
-                echo 'Pulling...' + env.BRANCH_NAME
-                checkout scm
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '8bb83f75-d1d4-4f1c-aabc-2b492dfea8c9', url: 'https://github.com/stefancova/pokedex-go.git']]])
+				echo 'Pulling...' + env.BRANCH_NAME
             }
             post{
                 always{
@@ -20,7 +20,7 @@ pipeline{
                 }
             }
         }
-        stage("B"){
+        stage("B : build a docker image using the Dockerfile you created in step 2"){
             steps{
                 echo "========executing B========"
             }
