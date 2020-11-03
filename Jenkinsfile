@@ -10,8 +10,10 @@ pipeline{
         stage("B : build a docker image using the Dockerfile you created in step 2"){
             steps{
                 echo "Build docker image"
-                sh docker run pokedex-go:latest
-                sh cd pokedex-go && npm install
+                //sh docker run pokedex-go:latest
+                //sh cd pokedex-go && npm install
+                sh 'docker rm -f mypokedex || true'
+                sh 'docker run -d -p 5555:5555 --name mypokedex pokedex-go:latest'
             }
         }
         stage("C : run the unit tests within the image using npm test"){
