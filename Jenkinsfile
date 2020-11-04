@@ -12,7 +12,7 @@ pipeline{
                 echo "Build docker image"
                 sh 'docker build -t pokedex-go .'
                 echo "Install packages"
-                sh 'cd pokedex-go'
+                sh 'cd app'
                 sh 'npm install'
             }
         }
