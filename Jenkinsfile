@@ -10,7 +10,6 @@ pipeline{
         stage ("Environnment variables"){
             steps{
             // PRINT ENVIRONMENT TO JOB
-            echo "buidnumber is" ${env.BUILD_NUMBER}
             echo "workspace directory is ${env.WORKSPACE}"
             echo "build URL is ${env.BUILD_URL}"
             }
