@@ -1,24 +1,21 @@
 pipeline{
     agent any
     stages{
-        stage("A : Checkout branch master"){
+        stage("Checkout branch master"){
             steps{
                 echo 'Pulling...' + env.BRANCH_NAME
                 checkout scm
             }
         }
         stage ("Environnment variables"){
-            // PULL IN ENVIRONMENT VARIABLES
-            // Jenkins makes these variables available for each job it runs
-            def buildNumber = env.BUILD_NUMBER
-            def workspace = env.WORKSPACE
-            def buildUrl = env.BUILD_URL
-
+            steps{
             // PRINT ENVIRONMENT TO JOB
-            echo "workspace directory is ${workspace}"
+            echo "buidnumber is" ${env.BUILD_NUMBER}
+            echo "workspace directory is ${env.WORKSPACE}"
             echo "build URL is ${env.BUILD_URL}"
+            }
         }
-        stage("B : Build a docker image using the Dockerfile you created in step 2"){
+        stage("Build a docker image using the Dockerfile you created in step 2"){
             steps{
                 echo "Build docker image"
                 sh 'docker build -t pokedex-go .'
@@ -27,13 +24,13 @@ pipeline{
                 sh 'npm install'
             }
         }
-        stage("C : Run the unit tests within the image using npm test"){
+        stage("Run the unit tests within the image using npm test"){
             steps{
                 echo "Run unit tests"
                 sh 'npm test'
             }
         }
-        stage("D : Run a container from your image, publishing port 5555, run npm start"){
+        stage("Run a container from your image, publishing port 5555, run npm start"){
             steps{
                 echo "Run mypokex image"
                 sh 'docker rm -f mypokedex || true'
