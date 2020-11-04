@@ -7,24 +7,34 @@ pipeline{
                 checkout scm
             }
         }
-        stage("B : build a docker image using the Dockerfile you created in step 2"){
+        stage("B : Build a docker image using the Dockerfile you created in step 2"){
             steps{
                 echo "Build docker image"
                 sh 'docker build -t pokedex-go .'
+            }
+              steps{
+                echo "Install packages"
                 sh 'npm install'
             }
         }
-        stage("C : run the unit tests within the image using npm test"){
+        stage("C : Run the unit tests within the image using npm test"){
             steps{
                 echo "Run unit tests"
                 sh 'npm test'
             }
         }
-        stage("D : run a container from your image, publishing port 5555, run npm start"){
+        stage("D : Run a container from your image, publishing port 5555, run npm start"){
             steps{
-                echo "Run image and publish on port 5555"
+                echo "Run mypokex image"
                 sh 'docker rm -f mypokedex || true'
+            }
+            steps{
+                echo "Publish mypokedex on port 5555"
                 sh 'docker run -d -p 5555:5555 --name mypokedex pokedex-go:latest'
+            }
+            steps{
+                echo "Start app"
+                sh 'npm start'
             }
         }
     }
