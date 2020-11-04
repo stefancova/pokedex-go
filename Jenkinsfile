@@ -11,8 +11,6 @@ pipeline{
             steps{
                 echo "Build docker image"
                 sh 'docker build -t pokedex-go .'
-            }
-              steps{
                 echo "Install packages"
                 sh 'npm install'
             }
@@ -27,12 +25,8 @@ pipeline{
             steps{
                 echo "Run mypokex image"
                 sh 'docker rm -f mypokedex || true'
-            }
-            steps{
                 echo "Publish mypokedex on port 5555"
                 sh 'docker run -d -p 5555:5555 --name mypokedex pokedex-go:latest'
-            }
-            steps{
                 echo "Start app"
                 sh 'npm start'
             }
