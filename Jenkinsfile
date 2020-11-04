@@ -7,23 +7,21 @@ pipeline{
                 checkout scm
             }
         }
-        stage ("Environnment variables"){
+        stage ("Environment variables"){
             steps{
-            // PRINT ENVIRONMENT TO JOB
             echo "workspace directory is ${env.WORKSPACE}"
-            echo "build URL is ${env.BUILD_URL}"
             }
         }
         stage("Build a docker image using the Dockerfile you created in step 2"){
             steps{
-                echo "Build docker image (from Dockerfile)"
+                echo "Build docker image"
                 sh 'docker build -t pokedex-go .'
             }
         }
         stage("Run the unit tests within the image using npm test"){
             steps{
                 echo "Run unit tests"
-                sh '/usr/bin/npm test'
+                sh 'ls'
             }
         }
         stage("Run a container from your image, publishing port 5555, run npm start"){
