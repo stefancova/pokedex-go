@@ -23,7 +23,7 @@ pipeline{
                 echo "Run mypokedex image"
                 sh 'docker rm -f mypokedex || true'
                 echo "Run unit tests"
-                sh 'docker run -d --name mypokedex pokedex-go:latest sh -c npm test'
+                sh 'docker run --name mypokedex pokedex-go:latest sh -c npm run test'
             }
         }
         stage("Run a container from your image, publishing port 5555, run npm start"){
