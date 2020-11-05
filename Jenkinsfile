@@ -21,7 +21,7 @@ pipeline{
         stage("Run the unit tests within the image using npm test"){
             steps{
                 echo "Run unit tests"
-                sh 'ls'
+                sh 'npm test'
             }
         }
         stage("Run a container from your image, publishing port 5555, run npm start"){
