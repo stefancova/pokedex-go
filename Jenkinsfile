@@ -18,20 +18,20 @@ pipeline{
                 sh 'docker build -t pokedex-go .'
             }
         }
-        stage("Run the unit tests within the image using npm test"){
+       stage("Run the unit tests within the image using npm test"){
             steps{
+                echo "Run mypokedex image"
+                sh 'docker rm -f mypokedex || true'
                 echo "Run unit tests"
-                sh 'ls'
+                sh 'docker run -d --name mypokedex pokedex-go:latest sh -c npm test'
             }
         }
         stage("Run a container from your image, publishing port 5555, run npm start"){
             steps{
-                echo "Run mypokex image"
+                echo "Run mypokedex image"
                 sh 'docker rm -f mypokedex || true'
-                echo "Publish mypokedex on port 5555"
-                sh 'docker run -d -p 5555:5555 --name mypokedex pokedex-go:latest'
-                echo "Start app"
-                sh 'npm start'
+                echo "Publish mypokedex on port 5555 and start app"
+                sh 'docker run -d -p 5555:5555 --name mypokedex pokedex-go:latest sh -c npm start'
             }
         }
     }
