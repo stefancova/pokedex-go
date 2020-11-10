@@ -1,30 +1,30 @@
 pipeline{
     agent any
     stages{
-        stage("Checkout branch master"){
-            steps{
-                echo "Pulling..." + env.BRANCH_NAME
-                checkout scm
-            }
-        }
         stage ("Environment variables"){
             steps{
             echo "Workspace directory is ${env.WORKSPACE}"
             }
         }
-        stage("Build a docker image using the Dockerfile you created in step 2"){
+        stage("1.CHECKOUT : branch master"){
+            steps{
+                echo "Pulling..." + env.BRANCH_NAME
+                checkout scm
+            }
+        }
+        stage("2.BUILD : a docker image using the Dockerfile you created in step 2"){
             steps{
                 echo "Build docker image"
                 sh "docker build -t pokedex-go ."
             }
         }
-       stage("Run the unit tests within the image using npm test"){
+       stage("3.TEST : Run the unit tests within the image using npm test"){
             steps{
                 echo "Run unit tests"
                 sh "docker run --rm pokedex-go:latest npm test"
             }
         }
-        stage("Run a container from your image, publishing port 5555, run npm start"){
+        stage("4. DEPLOY : Run a container from your image, publishing port 5555, run npm start"){
             steps{
                 echo "Delete existing mypokedex image"
                 sh "docker rm -f mypokedex || true"
