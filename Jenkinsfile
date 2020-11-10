@@ -20,10 +20,8 @@ pipeline{
         }
        stage("Run the unit tests within the image using npm test"){
             steps{
-                echo "Delete existing mypokedex image"
-                sh "docker rm -f mypokedex || true"
                 echo "Run unit tests"
-                sh "docker run --name mypokedex pokedex-go:latest sh -c 'npm run test'"
+                sh "docker run --rm --name mypokedex pokedex-go:latest sh -c 'npm run test'"
             }
         }
         stage("Run a container from your image, publishing port 5555, run npm start"){
